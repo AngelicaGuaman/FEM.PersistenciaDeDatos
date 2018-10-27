@@ -1,45 +1,45 @@
 package es.upm.miw.SolitarioCelta;
 
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
-public class MejoresResultados extends AppCompatActivity implements ListView.OnItemClickListener {
+import java.util.ArrayList;
+
+public class MejoresResultados extends Activity implements View.OnClickListener {
 
     static final String TAG_MIW = "MIW";
 
     private ListView lvListado;
+    private Button borrarTodosBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.mejores_resultados);
 
-        // asociar recurso a la vista
-        //lvListado = findViewById(R.id.lvListadoElementos);
+        lvListado = findViewById(R.id.lvListadoElementos);
+        borrarTodosBtn = findViewById(R.id.borrarTodosBtn);
 
-        // Crear adaptador a partir de datos
-        /*PuntuacionAdaptador adaptador = new PuntuacionAdaptador(
+        ArrayList<Puntuacion> arrayPuntuacion = this.getIntent().getParcelableArrayListExtra("Puntuacion");
+
+        PuntuacionAdaptador adaptador = new PuntuacionAdaptador(
                 this,
                 R.layout.item_lista,
-                getResources().getStringArray(R.array.misDatos)
-        );*/
+                arrayPuntuacion
+        );
 
-       // lvListado.setAdapter(adaptador);
-        lvListado.setOnItemClickListener(this);
+        lvListado.setAdapter(adaptador);
+
+        borrarTodosBtn.setOnClickListener(this);
     }
 
     @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        StringBuilder texto = new StringBuilder("Opción elegida (")
-                .append(String.valueOf(position))
-                .append("): ")
-                .append(parent.getItemAtPosition(position).toString());
-
-        Log.i(TAG_MIW, texto.toString());
-        //Snackbar.make(parent, texto, Snackbar.LENGTH_LONG).show();
+    public void onClick(View v) {
+        DialogFragment dialogFragment = new DeleteDialogFragment();
+        dialogFragment.show(getFragmentManager(), "DELETE DIALOG!");
     }
 }

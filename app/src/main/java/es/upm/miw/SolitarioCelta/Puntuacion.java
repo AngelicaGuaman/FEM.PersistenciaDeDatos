@@ -24,6 +24,7 @@ public class Puntuacion implements Parcelable {
         id = in.readInt();
         nombreJugador = in.readString();
         fecha = in.readString();
+        puntuacion = in.readInt();
     }
 
     public int getId() {

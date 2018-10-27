@@ -11,6 +11,7 @@
     <string name="editTextPrefSummary">Pulse para teclear el nombreJugador del jugador</string>
     <string name="secondCategoryPrefTitle">Ajustes del juego</string>
     <string name="preferencesText">Ajustes</string>
+    <string name="mejoresResultadosText">Mejores resultados</string>
 
     <!-- Diálogo Final -->
     <string name="txtDialogoFinalTitulo">Fin del juego</string>
@@ -39,4 +40,12 @@
     <string name="fileNotFoundText">No se ha encontrado el fichero</string>
     <string name="fileEmptyText">El fichero está vacío</string>
     <string name="restoreGameText">Se ha cargado la partida</string>
+
+    <string name="noHayRegistros">Lo sentimos pero no hay registros en la bbdd.</string>
+    <string name="borrarTodosText">Borrar Todos</string>
+    <string name="txtDialogoBorrarTitulo">Eliminar los mejores resultados</string>
+    <string name="txtDialogoBorrarPregunta">¿Está seguro que quiere borrar los mejores resultados?</string>
+    <string name="txtDialogoBorrarAfirmativo">Sí</string>
+    <string name="txtDialogoBorrarNegativo">No</string>
+    <string name="txtDialogoBorrarText">Se han eliminado los mejores resultados</string>
 </resources>

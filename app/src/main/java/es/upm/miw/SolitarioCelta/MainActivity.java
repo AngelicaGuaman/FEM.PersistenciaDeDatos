@@ -17,6 +17,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -125,6 +126,17 @@ public class MainActivity extends AppCompatActivity {
                 dialogFragment.show(getFragmentManager(), "LOAD DIALOG");
                 return true;
             case R.id.mejoresResultados:
+                ArrayList<Puntuacion> arrayPuntuacion = this.puntuacionRepository.getAll();
+                Log.i("MIW: ", "Recogiendo datos de la bbdd");
+                if (!arrayPuntuacion.isEmpty()) {
+                    Intent intent = new Intent(this, MejoresResultados.class);
+                    intent.putParcelableArrayListExtra("Puntuacion", arrayPuntuacion);
+                    startActivity(intent);
+                } else {
+                    Log.i("MIW: ", "No hay registros en la base de datos");
+                    Toast.makeText(this, getString(R.string.noHayRegistros), Toast.LENGTH_LONG).show();
+                }
+
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -161,13 +173,7 @@ public class MainActivity extends AppCompatActivity {
 
             line = bufferedReader.readLine();
 
-            /*while (line != null) {
-                line = bufferedReader.readLine();
-                bundle.putString(CLAVE_TABLERO, mJuego.serializaTablero());
-            }*/
-
             Log.i("MIW: ", "Puntuacion leída...");
-
             bufferedReader.close();
 
         } catch (FileNotFoundException e) {
