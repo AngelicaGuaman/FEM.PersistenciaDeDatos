@@ -22,8 +22,6 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-import static java.lang.Integer.parseInt;
-
 public class MainActivity extends AppCompatActivity {
 
     JuegoCelta mJuego;

@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="10"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/nombreJugador"
@@ -18,15 +18,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="30"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/fecha"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="40"
+        android:layout_weight="30"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 
     <TextView
         android:id="@+id/puntuacion"
@@ -34,5 +34,5 @@
         android:layout_height="wrap_content"
         android:layout_weight="10"
         android:textColor="@color/colorPrimaryDark"
-        android:textSize="20sp" />
+        android:textSize="15sp" />
 </LinearLayout>
