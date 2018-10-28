@@ -34,7 +34,7 @@
     <string name="txtDialogoReiniciarPregunta">¿Está seguro que quiere reiniciar la partida?</string>
     <string name="txtDialogoReiniciarAfirmativo">Sí</string>
     <string name="txtDialogoReiniciarNegativo">No</string>
-
+    <string name="txtEstadoInicial">La partida ya están en el estado inicial</string>
 
     <string name="bestResultsText">Mejores Resultados</string>
     <string name="fileNotFoundText">No se ha encontrado el fichero</string>
@@ -48,4 +48,5 @@
     <string name="txtDialogoBorrarAfirmativo">Sí</string>
     <string name="txtDialogoBorrarNegativo">No</string>
     <string name="txtDialogoBorrarText">Se han eliminado los mejores resultados</string>
+    <string name="nombreJugadorNumFichasText">%s te quedan %s fichas</string>
 </resources>

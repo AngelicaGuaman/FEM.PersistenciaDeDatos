@@ -3,13 +3,16 @@ package es.upm.miw.SolitarioCelta;
 import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RadioButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.BufferedReader;
@@ -19,13 +22,19 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import static java.lang.Integer.parseInt;
+
 public class MainActivity extends AppCompatActivity {
 
     JuegoCelta mJuego;
     private final String CLAVE_TABLERO = "TABLERO_SOLITARIO_CELTA";
     private final String FILE = "partidaFile.txt";
     private String partida = "";
+    private int numFichas = 0;
+    private final String PARTIDA_INICIAL = "0011100001110011111111110111111111100111000011100";
+
     PuntuacionRepository puntuacionRepository;
+    TextView nombreJugadorFichasText;
 
     private final int[][] ids = {
             {0, 0, R.id.p02, R.id.p03, R.id.p04, 0, 0},
@@ -42,8 +51,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         puntuacionRepository = new PuntuacionRepository(getApplicationContext());
+        nombreJugadorFichasText = findViewById(R.id.nombreJugadorFichasText);
 
         mJuego = new JuegoCelta();
+
         mostrarTablero();
     }
 
@@ -77,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
                 if (ids[i][j] != 0) {
                     button = findViewById(ids[i][j]);
                     button.setChecked(mJuego.obtenerFicha(i, j) == 1);
+                    nombreJugadorFichasText.setText(getString(R.string.nombreJugadorNumFichasText, getNombreJugador(), String.valueOf(mJuego.getNumFichas())));
                 }
     }
 
@@ -111,19 +123,25 @@ public class MainActivity extends AppCompatActivity {
                 guardarPartida();
                 return true;
             case R.id.cargar:
-                partida = leerPartida();
+                leerPartidaFichas();
                 if (partida != null) {
-                    if (!partida.equals(mJuego.serializaTablero())) {
+                    if (!partida.equals(PARTIDA_INICIAL) && !partida.equals(mJuego.serializaTablero())) {
                         dialogFragment = new LoadDialogFragment();
                         dialogFragment.show(getFragmentManager(), "LOAD DIALOG");
                     } else {
                         cargarPartida(partida);
                     }
+
                 }
                 return true;
             case R.id.reiniciar:
-                dialogFragment = new ResetDialogFragment();
-                dialogFragment.show(getFragmentManager(), "LOAD DIALOG");
+                if (!PARTIDA_INICIAL.equals(mJuego.serializaTablero())) {
+                    dialogFragment = new ResetDialogFragment();
+                    dialogFragment.show(getFragmentManager(), "RESTART DIALOG");
+                } else {
+                    Toast.makeText(this, getString(R.string.txtEstadoInicial), Toast.LENGTH_LONG).show();
+                }
+
                 return true;
             case R.id.mejoresResultados:
                 ArrayList<Puntuacion> arrayPuntuacion = this.puntuacionRepository.getAll();
@@ -157,6 +175,8 @@ public class MainActivity extends AppCompatActivity {
             FileOutputStream fileOutputStream = openFileOutput(FILE, Context.MODE_PRIVATE);
             fileOutputStream.write(tableroSerializado.getBytes());
             fileOutputStream.write('\n');
+            fileOutputStream.write(String.valueOf(mJuego.getNumFichas()).getBytes());
+            fileOutputStream.write('\n');
             fileOutputStream.close();
             Log.i("MIW: ", "Guardando el fichero...");
         } catch (IOException e) {
@@ -165,13 +185,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public String leerPartida() {
-        String line = "";
-
+    public void leerPartidaFichas() {
         try {
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(openFileInput(FILE)));
 
-            line = bufferedReader.readLine();
+            partida = bufferedReader.readLine();
+            numFichas = Integer.parseInt(bufferedReader.readLine());
 
             Log.i("MIW: ", "Puntuacion leída...");
             bufferedReader.close();
@@ -185,24 +204,27 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MIW: ", "FILE EMPTY: " + e.getMessage());
             e.printStackTrace();
         }
-
-        return line;
     }
 
     public void cargarPartida(String partida) {
         mJuego.deserializaTablero(partida);
         mostrarTablero();
         Toast.makeText(this, getString(R.string.restoreGameText), Toast.LENGTH_LONG).show();
+        nombreJugadorFichasText.setText(getString(R.string.nombreJugadorNumFichasText, getNombreJugador(), String.valueOf(numFichas)));
     }
 
     public String getPartida() {
         return partida;
     }
 
+    public String getNombreJugador() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        return preferences.getString("playerName", "jugadorPorDefecto");
+    }
 
     public void guardarPuntuacion() {
         int puntuacionFinal = mJuego.getPuntuacionTotal();
-        long idJugador = puntuacionRepository.add("Angelica", puntuacionFinal);
+        long idJugador = puntuacionRepository.add(getNombreJugador(), puntuacionFinal);
         Log.i("MIW: Puntuación", String.valueOf(puntuacionFinal));
         Log.i("MIW: idJugador", String.valueOf(idJugador));
     }

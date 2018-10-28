@@ -6,6 +6,8 @@ import java.io.InputStreamReader;
 class JuegoCelta {
     static final int TAMANIO = 7;
     private static final int NUM_MOVIMIENTOS = 4;
+    static final int NUM_FICHAS = 32;
+    public int numFichas = NUM_FICHAS;
     private int[][] tablero;
     private static final int[][] TABLERO_INICIAL = { // Posiciones válidas del tablero
             {0, 0, 1, 1, 1, 0, 0},
@@ -106,7 +108,9 @@ class JuegoCelta {
                 iSeleccionada = iPulsada;
                 jSeleccionada = jPulsada;
             }
+            numFichas--;
         }
+
     }
 
     /**
@@ -164,6 +168,7 @@ class JuegoCelta {
         tablero[TAMANIO / 2][TAMANIO / 2] = 0;   // posición central
 
         estadoJuego = Estado.ESTADO_SELECCION_FICHA;
+        numFichas = NUM_FICHAS;
     }
 
     public Estado getEstadoJuego() {
@@ -182,5 +187,9 @@ class JuegoCelta {
         }
 
         return puntuacion;
+    }
+
+    public int getNumFichas() {
+        return numFichas;
     }
 }
