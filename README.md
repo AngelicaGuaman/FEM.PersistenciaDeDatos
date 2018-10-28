@@ -29,4 +29,6 @@ Partiendo del proyecto Solitario Celta, se deberá continuar con el desarrollo d
 * Se propone mostrar el número de fichas que quedan en el tablero, añadir un cronómetro a la partida (y/o guardar el tiempo empleado), permitir guardar más de una partida, filtrar los mejores resultados por número de fichas o por jugador, añadir preferencias para modificar los colores empleados por la app, etc.
 
 
+#### ACLARACIONES
+Solo se podrá guardar una única partida y se cargará la misma, en el caso que el usuario quiera cargar la partida.
 La tareas que he decidido impletar son: mostrar el nombre del jugador y el número de fichas que le quedan para terminar la partida.
